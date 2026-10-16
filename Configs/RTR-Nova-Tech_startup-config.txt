@@ -1,0 +1,241 @@
+!
+version 15.1
+service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname RTR-Nova-Tech
+!
+!
+!
+enable secret 5 $1$mERr$rrQ/nHRxBqzHPY1cIYeNi0
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+username IT-emmanuel secret 5 $1$mERr$9xY3DsrOnQWW5dCyc0Gk61
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524VDKQ-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip ssh time-out 60
+ip domain-name Nova-tech.local
+ip name-server 10.1.1.135
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description WAN
+ ip address 100.1.1.2 255.255.255.252
+ ip nat outside
+ duplex full
+ speed 1000
+!
+interface GigabitEthernet0/1
+ description connect SW-ACC
+ no ip address
+ duplex full
+ speed 1000
+!
+interface GigabitEthernet0/1.10
+ description RX-IT
+ encapsulation dot1Q 10
+ ip address 10.1.1.1 255.255.255.224
+ ip helper-address 10.1.1.135
+ ip nat inside
+!
+interface GigabitEthernet0/1.20
+ description RX-DEV
+ encapsulation dot1Q 20
+ ip address 10.1.1.33 255.255.255.224
+ ip helper-address 10.1.1.135
+ ip nat inside
+ ip access-group Filtre-inter-vlan in
+!
+interface GigabitEthernet0/1.30
+ description RX-RH
+ encapsulation dot1Q 30
+ ip address 10.1.1.65 255.255.255.224
+ ip helper-address 10.1.1.135
+ ip nat inside
+ ip access-group Filtre-inter-vlan in
+!
+interface GigabitEthernet0/1.40
+ description RX-Administration
+ encapsulation dot1Q 40
+ ip address 10.1.1.97 255.255.255.224
+ ip helper-address 10.1.1.135
+ ip nat inside
+ ip access-group Filtre-inter-vlan in
+!
+interface GigabitEthernet0/1.50
+ description RX-Serveur
+ encapsulation dot1Q 50
+ ip address 10.1.1.129 255.255.255.224
+ ip nat inside
+!
+interface GigabitEthernet0/1.60
+ description RX-Imprimante
+ encapsulation dot1Q 60
+ ip address 10.1.1.161 255.255.255.224
+ ip nat inside
+ ip access-group Filtre-imprimante in
+!
+interface GigabitEthernet0/1.70
+ description RX-Management
+ encapsulation dot1Q 70
+ ip address 10.1.1.193 255.255.255.224
+ ip helper-address 10.1.1.135
+ ip nat inside
+ ip access-group Protect-WLC out
+!
+interface GigabitEthernet0/1.80
+ description RX-Guest
+ encapsulation dot1Q 80
+ ip address 192.168.10.1 255.255.255.0
+ ip helper-address 10.1.1.135
+ ip nat inside
+ ip access-group Guest-Restrict in
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip nat inside source list Lan-to-Int interface GigabitEthernet0/0 overload
+ip classless
+ip route 0.0.0.0 0.0.0.0 100.1.1.1 
+!
+ip flow-export version 9
+!
+!
+ip access-list standard Lan-to-Int
+ permit 10.1.1.0 0.0.0.255
+ permit 192.168.10.0 0.0.0.255
+ip access-list standard ACCES-SSH
+ permit 10.1.1.0 0.0.0.31
+ deny any
+ip access-list extended Protect-WLC
+ remark permettre le ping du dep IT vers le WLC
+ permit icmp 10.1.1.0 0.0.0.31 host 10.1.1.198 echo
+ remark permettre les connection https du dep IT vers le WLC
+ permit tcp 10.1.1.0 0.0.0.31 host 10.1.1.198 eq 443
+ remark bloquer l'acces aux autres departement
+ deny ip any host 10.1.1.198
+ remark permettre le reste du traffic
+ permit ip any any
+ip access-list extended Guest-Restrict
+ remark autorise le dhcp
+ permit udp any eq bootpc any eq bootps
+ remark autoriser le traffic dns
+ permit udp 192.168.10.0 0.0.0.255 host 10.1.1.135 eq domain
+ permit tcp 192.168.10.0 0.0.0.255 host 10.1.1.135 eq domain
+ remark bloquer l'acces au reste de l'infra
+ deny ip 192.168.10.0 0.0.0.255 10.1.1.0 0.0.0.255
+ remark permettre l'acces internet
+ permit ip 192.168.10.0 0.0.0.255 any
+ deny ip any any
+ip access-list extended Filtre-imprimante
+ remark --- Reponses aux jobs d'impression/scan (connexions TCP initiees par les PC) ---
+ permit tcp 10.1.1.160 0.0.0.31 any established
+ remark --- Reponse au ping (supervision par IT) ---
+ permit icmp 10.1.1.160 0.0.0.31 any echo-reply
+ remark --- Reponses SNMP / decouverte  ---
+ permit udp 10.1.1.160 0.0.0.31 eq snmp any
+ remark --- Tout le reste : interdit ---
+ deny ip any any
+ip access-list extended Filtre-inter-vlan
+ remark --- DHCP (broadcast client et renouvellement unicast) ---
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootpc host 10.1.1.135 eq bootps
+ remark --- DNS vers le serveur ---
+ permit udp any host 10.1.1.135 eq domain
+ permit tcp any host 10.1.1.135 eq domain
+ remark --- HTTPS vers le serveur ---
+ permit tcp any host 10.1.1.135 eq 443
+ remark --- SMB vers le serveur ---
+ permit tcp any host 10.1.1.135 eq 445
+ remark --- Impression vers le reseau Imprimante ---
+ permit tcp any 10.1.1.160 0.0.0.31 eq 9100
+ permit tcp any 10.1.1.160 0.0.0.31 eq 515
+ permit tcp any 10.1.1.160 0.0.0.31 eq 631
+ remark --- Reponses aux connexions initiees par IT (depannage) ---
+ permit tcp any 10.1.1.0 0.0.0.31 established
+ permit icmp any 10.1.1.0 0.0.0.31 echo-reply
+ remark autoriser le ping vers les imprimantes
+ permit icmp any 10.1.1.160 0.0.0.31 echo
+ remark --- Blocage de tout le reste de l'infra interne ---
+ deny ip any 10.1.1.0 0.0.0.255
+ deny ip any 192.168.10.0 0.0.0.255
+ remark --- Acces Internet ---
+ permit ip any any
+!
+banner motd x
+
+***********************************
+
+*         Avertissement !!!       *
+
+* Interdiction d'acceder a cet    *
+
+* equipement sans autorisation.   *
+
+***********************************x
+!
+!
+!
+!
+logging 10.1.1.135
+line con 0
+ login local
+!
+line aux 0
+!
+line vty 0 4
+ access-class ACCES-SSH in
+ exec-timeout 2 0
+ login local
+ transport input ssh
+line vty 5 15
+ access-class ACCES-SSH in
+ exec-timeout 2 0
+ login local
+ transport input ssh
+!
+!
+ntp authentication-key 1 md5 08701E1D5D35041532 7
+ntp authenticate
+ntp trusted-key 1
+ntp server 10.1.1.135 key 1
+!
+end
+

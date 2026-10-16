@@ -1,0 +1,466 @@
+!
+version 15.0
+service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname Sw-ACC-Nova-tech
+!
+ip ftp username netadmin
+ip ftp password 1234Lab@
+enable secret 5 $1$mERr$rrQ/nHRxBqzHPY1cIYeNi0
+!
+!
+!
+clock timezone WAT 1
+!
+ip ssh version 2
+ip ssh time-out 60
+ip domain-name Nova-tech.local
+ip host google.com 100.1.1.1 
+ip name-server 10.1.1.135
+!
+username IT-emmanuel secret 5 $1$mERr$9xY3DsrOnQWW5dCyc0Gk61
+!
+ip arp inspection vlan 10,20,30,40
+ip arp inspection validate src-mac dst-mac ip
+!
+ip dhcp snooping vlan 10,20,30,40
+ip dhcp snooping
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+interface FastEthernet0/1
+ description connect poste-IT
+ switchport access vlan 10
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0001.96AC.6A66
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/2
+ description connect poste-DEV
+ switchport access vlan 20
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0002.1660.D8EC
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/3
+ description connect poste-Admin
+ switchport access vlan 40
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 00E0.A3A4.54E5
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/4
+ description connect poste-RH
+ switchport access vlan 30
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0001.C96B.9B18
+ switchport port-security mac-address sticky 0002.16A5.2124
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/5
+ description connect Imprimante
+ switchport access vlan 60
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0005.5EA2.AD8C
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/6
+ description connect poste-IT2
+ switchport access vlan 10
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0001.43A3.14BC
+ switchport port-security mac-address sticky 0001.C914.708C
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/7
+ description connect poste-DEV2
+ switchport access vlan 20
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 00E0.B0C7.C34E
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/8
+ description connect poste-RH2
+ switchport access vlan 30
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0060.47E6.B0ED
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/9
+ description connect poste-Admin2
+ switchport access vlan 40
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0003.E4DB.732C
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/10
+ description AP-IT
+ switchport trunk native vlan 70
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,999
+ ip dhcp snooping limit rate 10
+ switchport mode trunk
+ switchport nonegotiate
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/11
+ description AP-DEV
+ switchport trunk native vlan 70
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,999
+ ip dhcp snooping limit rate 10
+ switchport mode trunk
+ switchport nonegotiate
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/12
+ description AP-RH
+ switchport trunk native vlan 70
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,999
+ ip dhcp snooping limit rate 10
+ switchport mode trunk
+ switchport nonegotiate
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/13
+ description AP-Administration
+ switchport trunk native vlan 70
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,999
+ ip dhcp snooping limit rate 10
+ switchport mode trunk
+ switchport nonegotiate
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/14
+ switchport trunk native vlan 70
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,999
+ ip dhcp snooping limit rate 10
+ switchport mode trunk
+ switchport nonegotiate
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+!
+interface FastEthernet0/15
+ switchport access vlan 999
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+ shutdown
+!
+interface FastEthernet0/16
+ switchport access vlan 999
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+ shutdown
+!
+interface FastEthernet0/17
+ switchport access vlan 999
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+ shutdown
+!
+interface FastEthernet0/18
+ switchport access vlan 999
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+ shutdown
+!
+interface FastEthernet0/19
+ switchport access vlan 999
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+ shutdown
+!
+interface FastEthernet0/20
+ switchport access vlan 999
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+ shutdown
+!
+interface FastEthernet0/21
+ switchport access vlan 999
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+ shutdown
+!
+interface FastEthernet0/22
+ switchport access vlan 999
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 30
+ shutdown
+!
+interface FastEthernet0/23
+ description connect WLC
+ switchport access vlan 70
+ switchport trunk native vlan 70
+ switchport trunk allowed vlan 10,20,30,40,50,70,999
+ ip dhcp snooping limit rate 10
+ switchport mode trunk
+ switchport nonegotiate
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0001.96A8.6301
+ switchport port-security mac-address sticky 00D0.BA9E.6550
+ duplex full
+ speed 100
+ spanning-tree portfast
+ storm-control broadcast level 50
+!
+interface FastEthernet0/24
+ description connect Serveur
+ switchport access vlan 50
+ ip dhcp snooping limit rate 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky 
+ switchport port-security mac-address sticky 0002.4A51.2834
+ duplex full
+ speed 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ storm-control broadcast level 50
+!
+interface GigabitEthernet0/1
+ description Connect RTR-nova-tech
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,999
+ ip arp inspection trust
+ ip dhcp snooping trust
+ switchport mode trunk
+ switchport nonegotiate
+ duplex full
+ speed 1000
+ storm-control broadcast level 50
+!
+interface GigabitEthernet0/2
+ description Connect WLC-Nova-tech
+ switchport access vlan 999
+ switchport trunk native vlan 70
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,999
+ switchport mode trunk
+ storm-control broadcast level 50
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan70
+ description INT-Management
+ ip address 10.1.1.194 255.255.255.224
+!
+ip default-gateway 10.1.1.193
+!
+banner motd x
+
+***********************************
+
+*         Avertissement !!!       *
+
+* Interdiction d'acceder a cet    *
+
+* equipement sans autorisation.   *
+
+***********************************x
+logging 10.1.1.135
+!
+!
+!
+ip access-list standard ACCES-SSH
+ permit 10.1.1.0 0.0.0.31
+ deny any
+line con 0
+ login local
+!
+line vty 0 4
+ access-class ACCES-SSH in
+ exec-timeout 2 0
+ login local
+ transport input ssh
+line vty 5 15
+ access-class ACCES-SSH in
+ exec-timeout 2 0
+ login local
+ transport input ssh
+!
+!
+!
+ntp authenticate
+ntp trusted-key 1
+ntp server 10.1.1.135 key 1
+!
+end
+
