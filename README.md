@@ -35,7 +35,7 @@ Les configurations brutes des équipements sont disponibles dans le dossier `Con
 - [`SW-ACC-Nova-tech.txt`](Configs/SW-ACC-Nova-tech_startup-config.txt)
 
 ## 📁 Retrouvez le fichier source du lab dans le dossier :
-[Le Lab Nova-tech](Topology/Projet-Nova-tech-1.pkt)
+[Le Lab Nova-tech](Topology/projet-Nova-tech-1.pkt)
 
 **NB: j'ai utilisé la version 9.0.1 de cisco packet tracer**
  
