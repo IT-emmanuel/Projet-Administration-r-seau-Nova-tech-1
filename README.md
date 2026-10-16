@@ -32,7 +32,10 @@ Ce projet personnel simule l'infrastructure réseau complète d'une PME ("Nova-T
 ## 📂 Fichiers de Configuration
 Les configurations brutes des équipements sont disponibles dans le dossier `Configs/` :
 - [`RTR-Nova-Tech.txt`](Configs/RTR-Nova-Tech_startup-config.txt)
-- [`SW-ACC-Nova-tech.txt`](Configs/SW-ACC-Nova-tech_startup-config.txt) 
+- [`SW-ACC-Nova-tech.txt`](Configs/SW-ACC-Nova-tech_startup-config.txt)
+
+## 📁 Retrouvez le fichier source du lab dans le dossier :
+[Le Lab Nova-tech](Topology/Projet-Nova-tech-1.pkt)
 
 **NB: j'ai utilisé la version 9.0.1 de cisco packet tracer**
  
