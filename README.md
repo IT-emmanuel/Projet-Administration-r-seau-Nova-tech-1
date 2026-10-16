@@ -8,7 +8,8 @@ Ce projet personnel simule l'infrastructure réseau complète d'une PME ("Nova-T
 - **Routeur :** RTR-Nova-Tech (Routage Inter-VLAN, NAT, ACLs, SSH, NTP, SYSLOG)
 - **Switch d'accès :** SW-ACC-Nova-Tech (Vlan,Trunk, ACL, Port Security, DHCP Snooping, DAI, BPDU Guard, strom control)
 - **Services :** Serveur centralisé (DHCP, DNS, Syslog, NTP) + WLC & Bornes d'accès (AP)
-[Topologie du réseau Nova-Tech](Topology/Nova-tech-1.png)
+-
+## [Topologie du réseau Nova-Tech](Topology/Nova-tech-1.png)
 
 ## 🔒 Fonctionnalités et Sécurité implémentées
 1. **Segmentation VLAN :** 
