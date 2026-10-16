@@ -39,8 +39,7 @@ Les configurations brutes des équipements sont disponibles dans le dossier `Con
 **NB: j'ai utilisé la version 9.0.1 de cisco packet tracer**
 [Le Lab Nova-tech](Topology/projet-Nova-tech-1.pkt)
 
-## 📁 Retrouver le plan d'adressage ici
-[plan d'adressage Nova-tech](Adressage/plan d'adressage Nova-tech1.xlsx).
+
 
 
 
