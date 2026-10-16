@@ -37,7 +37,8 @@ Les configurations brutes des équipements sont disponibles dans le dossier `Con
 ## 📁 Retrouvez le fichier source du lab dans le dossier Topology
 
 **NB: j'ai utilisé la version 9.0.1 de cisco packet tracer**
-[Le Lab Nova-tech](Topology/projet-Nova-tech-1.pkt)
+
+**[Le Lab Nova-tech](Topology/projet-Nova-tech-1.pkt)**
 
 
 
